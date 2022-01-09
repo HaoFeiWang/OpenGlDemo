@@ -1,4 +1,4 @@
-package com.whf.opengldemo.one;
+package com.whf.opengldemo.part1;
 
 
 import android.app.Activity;
@@ -9,25 +9,26 @@ import com.whf.opengldemo.R;
 
 /**
  * OpenGL基本使用
+ * 使用 Java 方式绘制三角形
  */
-public class OneActivity extends Activity {
+public class Part1Activity extends Activity {
 
     private GLSurfaceView glSurfaceView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_one);
+        setContentView(R.layout.activity_part_1);
         glSurfaceView = findViewById(R.id.root_surface);
         initGlSurface();
     }
 
-    private void initGlSurface(){
+    private void initGlSurface() {
         //设置GLES版本
         glSurfaceView.setEGLContextClientVersion(3);
 
         //设置Render
-        glSurfaceView.setRenderer(new OneRenderer(this));
+        glSurfaceView.setRenderer(new Part1Renderer(this));
 
         //设置GlSurfaceView渲染模式，一定要在setRenderer之后调用
         //RENDERMODE_WHEN_DIRTY 只有在调用requestRender或者onResume等方法时才渲染

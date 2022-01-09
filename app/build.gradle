@@ -1,5 +1,6 @@
-apply plugin: 'com.android.application'
-
+plugins {
+    id 'com.android.application'
+}
 
 android {
     compileSdk 31
@@ -15,6 +16,7 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags ''
+                abiFilters 'arm64-v8a', 'armeabi-v7a'
             }
         }
     }

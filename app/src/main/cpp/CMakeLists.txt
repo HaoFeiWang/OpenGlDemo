@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.10.2)
 
 # Declares and names the project.
 
-project("opengldemo")
+project("OpenGlDemo")
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -15,13 +15,17 @@ project("opengldemo")
 # Gradle automatically packages shared libraries with your APK.
 
 add_library(
-        two_lib
+        lib_part2
 
         SHARED
 
         utils/log.h
-        two/two_jni_call.cpp
-        two/TwoNativeRender.cpp
+        utils/asset_utils.h
+        utils/asset_utils.cpp
+        utils/gl_utils.h
+        utils/gl_utils.cpp
+        part2/part2_jni_call.cpp
+        part2/Part2NativeRender.cpp
 )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -42,8 +46,9 @@ find_library( # Sets the name of the path variable.
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
-        two_lib
-
+        lib_part2
+        android
+        GLESv3
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib})

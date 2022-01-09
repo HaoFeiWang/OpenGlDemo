@@ -23,9 +23,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".one.OneActivity"/>
-        <activity android:name=".two.TwoActivity"/>
-        <activity android:name=".three.ThreeActivity"/>
+        <activity android:name=".part1.Part1Activity"/>
+        <activity android:name=".part2.Part2Activity"/>
+        <activity android:name=".part3.Part3Activity"/>
 
     </application>
 

@@ -1,4 +1,4 @@
-package com.whf.opengldemo.three;
+package com.whf.opengldemo.part3;
 
 import android.app.Activity;
 import android.opengl.EGL14;
@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.whf.opengldemo.Constants;
 import com.whf.opengldemo.R;
 import com.whf.opengldemo.utils.AssetUtil;
 import com.whf.opengldemo.utils.ShaderUtils;
@@ -29,9 +30,9 @@ import java.util.LinkedList;
  * <p>
  * 模拟 UIThread 和 RenderThread 的关系，自主上帧逻辑，不跟随Vsync
  */
-public class ThreeActivity extends Activity {
+public class Part3Activity extends Activity {
 
-    private static final String TAG = "WHF_" + ThreeActivity.class.getSimpleName();
+    private static final String TAG = Constants.COMMON_TAG + Part3Activity.class.getSimpleName();
 
     private int mWidth;
     private int mHeight;

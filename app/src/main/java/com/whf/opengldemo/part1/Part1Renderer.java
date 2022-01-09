@@ -1,12 +1,12 @@
-package com.whf.opengldemo.one;
+package com.whf.opengldemo.part1;
+
+import static com.whf.opengldemo.Constants.COMMON_TAG;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
-import com.whf.opengldemo.MainActivity;
 import com.whf.opengldemo.utils.AssetUtil;
 import com.whf.opengldemo.utils.ShaderUtils;
 
@@ -17,16 +17,16 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class OneRenderer implements GLSurfaceView.Renderer {
+public class Part1Renderer implements GLSurfaceView.Renderer {
 
-    private static final String TAG = MainActivity.COMMON_TAG + OneRenderer.class.getSimpleName();
+    private static final String TAG = COMMON_TAG + Part1Renderer.class.getSimpleName();
 
     private Context mContext;
 
     private int program;
     //private int vPosition;
 
-    public OneRenderer(Context context){
+    public Part1Renderer(Context context){
         this.mContext = context;
     }
 

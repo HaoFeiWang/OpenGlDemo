@@ -4,32 +4,32 @@
 
 #include <jni.h>
 #include "../utils/log.h"
-#include "TwoNativeRender.h"
+#include "Part2NativeRender.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-JNIEXPORT void JNICALL native_onSurfaceCreated(JNIEnv *env, jobject) {
+JNIEXPORT void JNICALL native_onSurfaceCreated(JNIEnv *env, jobject, jobject assetManager) {
     LOGD("native_onSurfaceCreated");
-    TwoNativeRender::GetInstance()->OnSurfaceCreate();
+    Part2NativeRender::GetInstance()->OnSurfaceCreate(env, assetManager);
 }
 
 JNIEXPORT void JNICALL native_onSurfaceChanged(JNIEnv *env, jobject, jint width, jint height) {
     LOGD("native_onSurfaceChanged");
-    TwoNativeRender::GetInstance()->OnSurfaceChange(width, height);
+    Part2NativeRender::GetInstance()->OnSurfaceChange(width, height);
 }
 
 JNIEXPORT void JNICALL native_onDrawFrame(JNIEnv *env, jobject) {
-    LOGD("native_onDrawFrame");
-    TwoNativeRender::GetInstance()->OnDrawFrame();
+    //LOGD("native_onDrawFrame");
+    Part2NativeRender::GetInstance()->OnDrawFrame();
 }
 
 /**
  * JNI函数注册表
  */
 static JNINativeMethod jni_method_table[] = {
-        {"onSurfaceCreated", "()V",   (void *) (native_onSurfaceCreated)},
+        {"onSurfaceCreated", "(Landroid/content/res/AssetManager;)V",   (void *) (native_onSurfaceCreated)},
         {"onSurfaceChanged", "(II)V", (void *) (native_onSurfaceChanged)},
         {"onDrawFrame",      "()V",   (void *) (native_onDrawFrame)}
 };
@@ -43,7 +43,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
         return JNI_ERR;
     }
 
-    jclass jniCallClass = jniEnv->FindClass("com/whf/opengldemo/two/TwoJniCall");
+    jclass jniCallClass = jniEnv->FindClass("com/whf/opengldemo/part2/Part2JniCall");
     if (jniCallClass == nullptr) {
         LOGE("JNI_OnLoad FindClass error");
         return JNI_ERR;

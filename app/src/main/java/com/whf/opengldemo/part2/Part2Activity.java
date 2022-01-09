@@ -1,4 +1,4 @@
-package com.whf.opengldemo.two;
+package com.whf.opengldemo.part2;
 
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
@@ -12,20 +12,21 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * OpenGL Native 实现
  */
-public class TwoActivity extends Activity {
+public class Part2Activity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_one);
-        TwoJniCall jniCall = new TwoJniCall();
+        setContentView(R.layout.activity_part_2);
         GLSurfaceView glSurfaceView = findViewById(R.id.root_surface);
-        //glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
-        //glSurfaceView.setEGLContextClientVersion(3);
+
+        glSurfaceView.setEGLContextClientVersion(3);
         glSurfaceView.setRenderer(new GLSurfaceView.Renderer() {
+            final Part2JniCall jniCall = new Part2JniCall();
+
             @Override
             public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-                jniCall.onSurfaceCreated();
+                jniCall.onSurfaceCreated(getAssets());
             }
 
             @Override
@@ -39,6 +40,7 @@ public class TwoActivity extends Activity {
             }
         });
 
-
+        //一定要在setRenderer之后调用
+        glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
     }
 }
