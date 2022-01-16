@@ -1,0 +1,19 @@
+add_library(
+        lib_part2
+        SHARED
+        ../utils/log.h
+        ../utils/asset_utils.h
+        ../utils/asset_utils.cpp
+        ../utils/gl_utils.h
+        ../utils/gl_utils.cpp
+        part2_jni_call.cpp
+        Part2NativeRender.cpp
+)
+find_library(
+        log-lib
+        log)
+target_link_libraries(
+        lib_part2
+        android
+        GLESv3
+        ${log-lib})

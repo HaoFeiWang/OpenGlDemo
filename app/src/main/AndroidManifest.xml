@@ -23,9 +23,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".part1.Part1Activity"/>
-        <activity android:name=".part2.Part2Activity"/>
-        <activity android:name=".part3.Part3Activity"/>
+        <activity android:name=".part1.Part1Activity" />
+        <activity android:name=".part2.Part2Activity" />
+        <activity android:name=".part3.Part3Activity" />
+        <activity android:name=".part4.Part4Activity" />
 
     </application>
 

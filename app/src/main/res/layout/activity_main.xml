@@ -22,6 +22,13 @@
         android:text="Native方式入门" />
 
     <Button
+        android:id="@+id/btn_gl_vbo"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VAO、VBO" />
+
+    <Button
         android:id="@+id/btn_egl_java"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
