@@ -21,7 +21,28 @@ char *readAssetFile(JNIEnv *env, jobject javaAssetManager, const char *file_name
 
     char *buffer = (char *) malloc(fileByteLength);
     int readLength = AAsset_read(asset, buffer, fileByteLength);
-    LOGD("file readLength = %d, content = %s", readLength, buffer);
+    LOGD("file readLength = %d", readLength);
+
+    AAsset_close(asset);
+
+    return buffer;
+}
+
+char *readAssetFile(JNIEnv *env, jobject javaAssetManager, const char *file_name, int *bufferSize) {
+    AAssetManager *assetManager = AAssetManager_fromJava(env, javaAssetManager);
+    AAsset *asset = AAssetManager_open(assetManager, file_name, AASSET_MODE_UNKNOWN);
+    if (asset == nullptr) {
+        LOGE("open asset error");
+        return nullptr;
+    }
+
+    off_t fileByteLength = AAsset_getLength(asset);
+    LOGD("file byte length = %ld", fileByteLength);
+
+    *bufferSize = fileByteLength;
+    char *buffer = (char *) malloc(fileByteLength);
+    int readLength = AAsset_read(asset, buffer, fileByteLength);
+    LOGD("file readLength = %d", readLength);
 
     AAsset_close(asset);
 

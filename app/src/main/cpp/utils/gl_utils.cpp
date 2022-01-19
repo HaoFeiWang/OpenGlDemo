@@ -55,7 +55,7 @@ GLuint linkShaderProgram(const char *vertexShaderSource,
     if (!result) {
         GLchar infoLog[512];
         glGetProgramInfoLog(program, 512, NULL, infoLog);
-        LOGE("compile error = %s", infoLog);
+        LOGE("link error = %s", infoLog);
         glDeleteProgram(program);
         return 0;
     }

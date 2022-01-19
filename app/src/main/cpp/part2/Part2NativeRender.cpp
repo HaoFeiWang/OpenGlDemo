@@ -29,8 +29,8 @@ void Part2NativeRender::OnSurfaceCreate(JNIEnv *env, jobject assetManager) {
     LOGD("Part2NativeRender OnSurfaceCreate");
 
     //编译链接着色器
-    char *vertexSource = readAssetFile(env, assetManager, "glsl/one_vertex.glsl");
-    char *fragmentSource = readAssetFile(env, assetManager, "glsl/one_fragment.glsl");
+    char *vertexSource = readAssetFile(env, assetManager, "glsl/part1/one_vertex.glsl");
+    char *fragmentSource = readAssetFile(env, assetManager, "glsl/part1/one_fragment.glsl");
 
     program = linkShaderProgram(vertexSource, fragmentSource);
     //激活program
@@ -46,6 +46,9 @@ void Part2NativeRender::OnSurfaceChange(int width, int height) {
 }
 
 void Part2NativeRender::OnDrawFrame() {
+    glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     float vertexArray[] = {0.0f, 0.5f, 0.0f,   // top
                            -0.5f, -0.5f, 0.0f, // bottom left
                            0.5f, -0.5f, 0.0f}; // bottom right

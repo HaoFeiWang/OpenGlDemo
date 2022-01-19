@@ -26,7 +26,7 @@ public class Part1Renderer implements GLSurfaceView.Renderer {
     private int program;
     //private int vPosition;
 
-    public Part1Renderer(Context context){
+    public Part1Renderer(Context context) {
         this.mContext = context;
     }
 
@@ -39,10 +39,10 @@ public class Part1Renderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         Log.i(TAG, "onSurfaceCreated");
-        String vertexSource = AssetUtil.getGlslSource(mContext,"one_vertex");
-        String fragmentSource = AssetUtil.getGlslSource(mContext,"one_fragment");
+        String vertexSource = AssetUtil.getGlslSource(mContext, "part1/one_vertex");
+        String fragmentSource = AssetUtil.getGlslSource(mContext, "part1/one_fragment");
 
-        program = ShaderUtils.createAndLinkProgram(vertexSource,fragmentSource);
+        program = ShaderUtils.createAndLinkProgram(vertexSource, fragmentSource);
         //获取着色器的属性位置（vPosition为顶点着色器的输入属性）
         //vPosition = GLES30.glGetAttribLocation(program,"vPosition");
     }
@@ -59,7 +59,7 @@ public class Part1Renderer implements GLSurfaceView.Renderer {
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         Log.i(TAG, "onSurfaceChanged");
         //创建OpenGL ES绘制窗口，此处传入的x，y坐标系原点为屏幕左下角
-        GLES30.glViewport(width/2,height/2,width/2,height/2);
+        GLES30.glViewport(width / 2, height / 2, width / 2, height / 2);
     }
 
 
@@ -95,7 +95,7 @@ public class Part1Renderer implements GLSurfaceView.Renderer {
     }
 
     //顶点数据
-    private FloatBuffer createBuffer(){
+    private FloatBuffer createBuffer() {
         //三个顶点数据，每个顶点数据包含x、y、z三个值
         float[] vertexArray = {
                 0.0f, 0.5f, 0.0f,   // top

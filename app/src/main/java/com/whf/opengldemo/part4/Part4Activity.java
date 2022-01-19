@@ -33,6 +33,7 @@ import java.util.LinkedList;
 public class Part4Activity extends Activity {
 
     private static final String TAG = Constants.COMMON_TAG + Part4Activity.class.getSimpleName();
+    private static final int FRAME_TIME = 8;
 
     private int mWidth;
     private int mHeight;
@@ -47,8 +48,10 @@ public class Part4Activity extends Activity {
     private EGLSurface mEglSurface;
     private EGLConfig mEglConfig;
     private TestRenderThread mTestRenderThread;
+    private ProducerFrame mProducerFrame;
 
     private long lastTime;
+    private MotionEvent mLastEvent;
     private final Object renderLock = new Object();
     private final LinkedList<TestRenderNode> mBufferQueue = new LinkedList<>();
 
@@ -72,6 +75,8 @@ public class Part4Activity extends Activity {
                 mSurfaceCreated = true;
                 mTestRenderThread = new TestRenderThread();
                 mTestRenderThread.start();
+                mProducerFrame = new ProducerFrame();
+                mProducerFrame.start();
             }
 
             @Override
@@ -89,6 +94,7 @@ public class Part4Activity extends Activity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        mLastEvent = event;
         long curTime = SystemClock.elapsedRealtime();
         long interval = curTime - lastTime;
         if (interval > 16) {
@@ -234,10 +240,10 @@ public class Part4Activity extends Activity {
             }
         }
 
-        Log.i(TAG, "drawFrame x = " + renderNode.x + " y = " + renderNode.y);
+        Log.i(TAG, "drawFrame x = " + renderNode.x + " y = " + renderNode.y + " bufferSize = " + mBufferQueue.size());
 
         //随机制造卡顿
-        Trace.beginSection("RenderThreadSleep");
+        /*Trace.beginSection("RenderThreadSleep");
         int random = (int) (Math.random() * 100);
         if (random % 40 == 0) {
             try {
@@ -246,8 +252,10 @@ public class Part4Activity extends Activity {
                 e.printStackTrace();
             }
         }
-        Trace.endSection();
+        Trace.endSection();*/
 
+        long startTime = SystemClock.elapsedRealtime();
+        Log.i(TAG, "startTime = " + startTime);
 
         //清除屏幕
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
@@ -259,6 +267,7 @@ public class Part4Activity extends Activity {
 
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 3);
         EGL14.eglSwapBuffers(mEglDisplay, mEglSurface);
+        Log.i(TAG, "endTime = " + (SystemClock.elapsedRealtime() - startTime));
     }
 
     //顶点数据
@@ -328,7 +337,6 @@ public class Part4Activity extends Activity {
                 drawFrame();
             }
         }
-
     }
 
     private class TestRenderNode {
@@ -341,5 +349,30 @@ public class Part4Activity extends Activity {
             this.y = y;
         }
 
+    }
+
+    /**
+     * 自动刷新
+     */
+    private class ProducerFrame extends Thread {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(FRAME_TIME);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                synchronized (renderLock) {
+                    if (mLastEvent != null) {
+                        mBufferQueue.push(new TestRenderNode(mLastEvent.getRawX(), mLastEvent.getRawY()));
+                    } else {
+                        mBufferQueue.push(new TestRenderNode(0, 0));
+                    }
+                    renderLock.notifyAll();
+                }
+            }
+        }
     }
 }

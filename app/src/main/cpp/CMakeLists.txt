@@ -4,3 +4,4 @@ project("OpenGlDemo")
 
 ADD_SUBDIRECTORY(part2)
 ADD_SUBDIRECTORY(part3)
+ADD_SUBDIRECTORY(part5)

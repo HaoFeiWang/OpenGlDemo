@@ -8,4 +8,6 @@
 
 char *readAssetFile(JNIEnv *env, jobject assetManager, const char *file_name);
 
+char *readAssetFile(JNIEnv *env, jobject assetManager, const char *file_name, int *bufferSize);
+
 #endif //OPENGLDEMO_ASSET_UTILS_H

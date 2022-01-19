@@ -35,5 +35,12 @@
         android:layout_marginTop="10dp"
         android:text="EGL使用入门" />
 
+    <Button
+        android:id="@+id/btn_texture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="纹理" />
+
 
 </LinearLayout>

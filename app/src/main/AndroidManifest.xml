@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OpenGlDemo">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -22,11 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".part1.Part1Activity" />
         <activity android:name=".part2.Part2Activity" />
         <activity android:name=".part3.Part3Activity" />
         <activity android:name=".part4.Part4Activity" />
+        <activity android:name=".part5.Part5Activity" />
 
     </application>
 

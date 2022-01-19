@@ -28,9 +28,13 @@ Part3NativeRender *Part3NativeRender::GetInstance() {
 void Part3NativeRender::OnSurfaceCreate(JNIEnv *env, jobject assetManager) {
     LOGD("Part3NativeRender OnSurfaceCreate");
 
+    int vertexLocationSize;
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &vertexLocationSize);
+    LOGD("Part3NativeRender vertexLocationSize = %d", vertexLocationSize);
+
     //编译链接着色器
-    char *vertexSource = readAssetFile(env, assetManager, "glsl/3/vertex.glsl");
-    char *fragmentSource = readAssetFile(env, assetManager, "glsl/3/fragment.glsl");
+    char *vertexSource = readAssetFile(env, assetManager, "glsl/part3/vertex.glsl");
+    char *fragmentSource = readAssetFile(env, assetManager, "glsl/part3/fragment.glsl");
 
     program = linkShaderProgram(vertexSource, fragmentSource);
     //激活program
@@ -114,6 +118,8 @@ void Part3NativeRender::OnSurfaceChange(int width, int height) {
 }
 
 void Part3NativeRender::OnDrawFrame() {
+    glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
