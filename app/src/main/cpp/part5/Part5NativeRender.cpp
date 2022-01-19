@@ -82,13 +82,13 @@ void Part5NativeRender::createVBO() {
      *  |X|Y|Z|S|T|X|Y|Z|S|T|X|Y|Z|S|T|
      *  |   0-20  |  20-40  |  40-60  |
      */
-    float vertexArray[] = {-1.0f, 0.5f, 0.0f,   // top
+    float vertexArray[] = {-1.0f, 0.5f, 0.0f,  // top
                            0.0f, 1.0f,         // ST
                            -1.0f, -0.5f, 0.0f, // bottom left
                            0.0f, 0.0f,         // ST
                            1.0f, -0.5f, 0.0f,  // bottom right
                            1.0f, 0.0f,         // ST
-                           1.0f, 0.5f, 0.0f,  // bottom right
+                           1.0f, 0.5f, 0.0f,   // bottom right
                            1.0f, 1.0f,         // ST
     };
     LOGD("vertexArray size = %ld", sizeof(vertexArray));
@@ -119,6 +119,14 @@ void Part5NativeRender::createTexture(JNIEnv *env, jobject assetManager) {
     int width;
     int height;
     int channel;
+
+    /**
+     * 翻转图片，OpenGL要求y轴0.0坐标是在图片的底部的，但是图片的y轴0.0坐标通常在顶部
+     * OpenGl纹理坐标：(0,1)   (1,1)    图片坐标：(0,0)   (1,0)
+     *
+     *               (0,0)   (1,0)            (0,1)   (1,1)
+     */
+    stbi_set_flip_vertically_on_load(true);
     //从内存中读取图片
     stbi_uc *textureImg = stbi_load_from_memory((stbi_uc *) fileBuffer, bufferSize,
                                                 &width, &height, &channel, 0);
@@ -129,25 +137,73 @@ void Part5NativeRender::createTexture(JNIEnv *env, jobject assetManager) {
     //激活纹理单元（GL_TEXTURE0 默认是激活状态，可以不用执行）
     glActiveTexture(GL_TEXTURE0);
     //创建纹理
-    glGenTextures(1, &textureId);
-    //绑定纹理
-    glBindTexture(GL_TEXTURE_2D, textureId);
-    //设置纹理S轴（横轴）的拉伸方式为截取
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    //设置纹理T轴（竖轴）的拉伸方式为截取
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glGenTextures(1, &textureId1);
+    //绑定纹理，纹理目标有：GL_TEXTURE_1D、GL_TEXTURE_3D
+    glBindTexture(GL_TEXTURE_2D, textureId1);
+    //设置纹理S轴（横轴）的拉伸方式
+    //GL_REPEAT	            对纹理的默认行为,重复纹理图像
+    //GL_MIRRORED_REPEAT	和GL_REPEAT一样，但每次重复图片是镜像放置的。
+    //GL_CLAMP_TO_EDGE	    纹理坐标会被约束在0到1之间，超出的部分会重复纹理坐标的边缘，产生一种边缘被拉伸的效果。
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    //设置纹理T轴（竖轴）的拉伸方式
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     //设置纹理采样方式
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    //GL_LINEAR     临近采样，直接使用采样点的色值，默认采样方式
+    //GL_NEAREST    线性采样，计算采样点周围色值的插值
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+    //设置多级渐远
+    //GL_NEAREST_MIPMAP_NEAREST	使用最邻近的多级渐远纹理来匹配像素大小，并使用邻近插值进行纹理采样
+    //GL_LINEAR_MIPMAP_NEAREST	使用最邻近的多级渐远纹理级别，并使用线性插值进行采样
+    //GL_NEAREST_MIPMAP_LINEAR	在两个最匹配像素大小的多级渐远纹理之间进行线性插值，使用邻近插值进行采样
+    //GL_LINEAR_MIPMAP_LINEAR	在两个邻近的多级渐远纹理之间使用线性插值，并使用线性插值进行采样
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
     //生成纹理
+    //参数1：纹理目标
+    //参数2：多级渐远的等级
+    //参数3：希望把纹理储存为何种格式
+    //参数4、5：纹理的宽高
+    //参数7：原图的格式
+    //参数8：数据类型
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, textureImg);
     //为当前绑定的纹理自动生成所有需要的多级渐远纹理
     glGenerateMipmap(GL_TEXTURE_2D);
 
-    //GLint textureSample = glGetUniformLocation(program, "texture_sample");
-    //glUniform1i(textureSample, 0);
+
+    //读取纹理图片
+    int bufferSize2;
+    char *fileBuffer2 = readAssetFile(env, assetManager, "image/texture_girl.jpg", &bufferSize2);
+    int width2;
+    int height2;
+    int channel2;
+    //翻转图片
+    stbi_set_flip_vertically_on_load(true);
+    //从内存中读取图片
+    stbi_uc *textureImg2 = stbi_load_from_memory((stbi_uc *) fileBuffer2, bufferSize2,
+                                                &width2, &height2, &channel2, 0);
+    if (textureImg2 != nullptr) {
+        LOGD("Part5NativeRender image width = %d height = %d channel = %d", width2, height2, channel2);
+    }
+
+    glActiveTexture(GL_TEXTURE1);
+    //创建纹理
+    glGenTextures(1, &textureId2);
+    //绑定纹理，纹理目标有：GL_TEXTURE_1D、GL_TEXTURE_3D
+    glBindTexture(GL_TEXTURE_2D, textureId2);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width2, height2, 0, GL_RGB, GL_UNSIGNED_BYTE, textureImg2);
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    GLint textureSample1 = glGetUniformLocation(program, "texture_sample1");
+    glUniform1i(textureSample1, 0);
+
+    GLint textureSample2 = glGetUniformLocation(program, "texture_sample2");
+    glUniform1i(textureSample2, 1);
 }
 
 void Part5NativeRender::OnSurfaceChange(int width, int height) {

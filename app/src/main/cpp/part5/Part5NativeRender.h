@@ -25,7 +25,8 @@ public:
 
     unsigned int ebo;
 
-    unsigned int textureId;
+    unsigned int textureId1;
+    unsigned int textureId2;
 
 private:
     Part5NativeRender();

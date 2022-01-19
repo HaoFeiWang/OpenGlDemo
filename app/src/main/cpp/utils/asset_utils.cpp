@@ -21,7 +21,7 @@ char *readAssetFile(JNIEnv *env, jobject javaAssetManager, const char *file_name
 
     char *buffer = (char *) malloc(fileByteLength);
     int readLength = AAsset_read(asset, buffer, fileByteLength);
-    LOGD("file readLength = %d", readLength);
+    LOGD("file readLength = %d content = %s", readLength, buffer);
 
     AAsset_close(asset);
 

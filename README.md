@@ -1,8 +1,8 @@
 ### 目录结构
-- java
-  - part1: 使用 Java 实现 OpenGL 基本使用流程，绘制三角形
-  - part2: 使用 Native 实现 OpenGL 基本使用流程，绘制三角形
-  - part3: VAO、VBO使用
-  - part4: EGL环境搭建，模拟 UIThread + RenderThrad 实现自主上帧逻辑
+- part1: 使用 Java 实现 OpenGL 基本使用流程，绘制三角形
+- part2: 使用 Native 实现 OpenGL 基本使用流程，绘制三角形
+- part3: VAO、VBO使用
+- part4: EGL环境搭建，模拟 UIThread + RenderThrad 实现自主上帧逻辑
+- part5：EBO与纹理绘制正方形
+- part6：
 
-### [博客地址](http://8.214.87.195/)
