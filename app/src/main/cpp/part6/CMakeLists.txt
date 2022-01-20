@@ -1,0 +1,21 @@
+add_library(
+        lib_part6
+        SHARED
+        ../utils/log.h
+        ../utils/asset_utils.h
+        ../utils/asset_utils.cpp
+        ../utils/gl_utils.h
+        ../utils/gl_utils.cpp
+        ../utils/stb_image.h
+        part6_jni_call.cpp
+        Part6NativeRender.h
+        Part6NativeRender.cpp
+)
+find_library(
+        log-lib
+        log)
+target_link_libraries(
+        lib_part6
+        android
+        GLESv3
+        ${log-lib})

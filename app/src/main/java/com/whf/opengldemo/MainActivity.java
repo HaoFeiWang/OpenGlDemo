@@ -20,6 +20,7 @@ import com.whf.opengldemo.part3.Part3Activity;
 import com.whf.opengldemo.part4.Part4Activity;
 import com.whf.opengldemo.part2.Part2Activity;
 import com.whf.opengldemo.part5.Part5Activity;
+import com.whf.opengldemo.part6.Part6Activity;
 
 import java.io.IOException;
 
@@ -37,6 +38,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.btn_gl_vbo).setOnClickListener(this);
         findViewById(R.id.btn_egl_java).setOnClickListener(this);
         findViewById(R.id.btn_texture).setOnClickListener(this);
+        findViewById(R.id.btn_translation).setOnClickListener(this);
     }
 
     @Override
@@ -56,6 +58,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.btn_texture:
                 startActivity(new Intent(this, Part5Activity.class));
+                break;
+            case R.id.btn_translation:
+                startActivity(new Intent(this, Part6Activity.class));
                 break;
         }
     }

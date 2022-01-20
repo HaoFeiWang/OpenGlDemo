@@ -28,6 +28,7 @@
         <activity android:name=".part3.Part3Activity" />
         <activity android:name=".part4.Part4Activity" />
         <activity android:name=".part5.Part5Activity" />
+        <activity android:name=".part6.Part6Activity" />
 
     </application>
 
