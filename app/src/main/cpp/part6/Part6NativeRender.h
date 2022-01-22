@@ -44,6 +44,8 @@ private:
     void createEBO();
 
     void createTexture(JNIEnv *env, jobject assetManager);
+
+    void create3d(float width,float height);
 };
 
 #endif //OPENGLDEMO_PART3NATIVERENDER_H

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.RemoteViews;
 
 import androidx.annotation.Nullable;
 
@@ -23,6 +24,7 @@ import com.whf.opengldemo.part5.Part5Activity;
 import com.whf.opengldemo.part6.Part6Activity;
 
 import java.io.IOException;
+import java.util.Locale;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {

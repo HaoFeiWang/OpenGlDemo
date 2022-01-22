@@ -12,6 +12,6 @@ void main() {
     out_frag_color = mix(
         texture(texture_sample1, frag_texture_position),
         texture(texture_sample2, frag_texture_position),
-        0.2
+        0.4
     );
 }
